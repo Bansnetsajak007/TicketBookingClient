@@ -8,6 +8,7 @@ import Signup from './pages/Signup'
 import Dashboard from './pages/Dashboard'
 import EventCreate from './pages/EventCreate'
 import TicketPurchase from './pages/TicketPurchase'
+import PaymentOptions from './components/tickets/PaymentOptions' // ✅ Import the new page
 
 function App() {
   const { user } = useAuth()
@@ -20,10 +21,12 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          
           <Route
             path="/dashboard"
             element={user ? <Dashboard /> : <Navigate to="/login" />}
           />
+
           <Route
             path="/events/create"
             element={
@@ -34,11 +37,23 @@ function App() {
               )
             }
           />
+
           <Route
             path="/events/purchase/:eventId"
             element={
               user && user.role === 'normal' ? (
                 <TicketPurchase />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+
+          <Route
+            path="/events/payment/:eventId"
+            element={
+              user && user.role === 'normal' ? (
+                <PaymentOptions />
               ) : (
                 <Navigate to="/login" />
               )

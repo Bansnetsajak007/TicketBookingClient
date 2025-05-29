@@ -38,101 +38,41 @@ function EventForm() {
   }
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold text-center mb-6">Create Event</h2>
-      {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-            Title
-          </label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="type" className="block text-sm font-medium text-gray-700">
-            Type
-          </label>
-          <input
-            type="text"
-            id="type"
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="event_date" className="block text-sm font-medium text-gray-700">
-            Date & Time
-          </label>
-          <input
-            type="datetime-local"
-            id="event_date"
-            name="event_date"
-            value={formData.event_date}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="location" className="block text-sm font-medium text-gray-700">
-            Location
-          </label>
-          <input
-            type="text"
-            id="location"
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="price" className="block text-sm font-medium text-gray-700">
-            Price
-          </label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            required
-            min="0"
-            step="0.01"
-          />
-        </div>
-        <div>
-          <label htmlFor="availability" className="block text-sm font-medium text-gray-700">
-            Available Tickets
-          </label>
-          <input
-            type="number"
-            id="availability"
-            name="availability"
-            value={formData.availability}
-            onChange={handleChange}
-            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-            required
-            min="0"
-          />
-        </div>
+    <div className="max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-lg border border-gray-200">
+      <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Create Event</h2>
+      {error && <p className="text-red-600 text-center mb-4">{error}</p>}
+      
+      <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-5">
+        {/* Form Fields */}
+        {[
+          { id: 'title', label: 'Title', type: 'text' },
+          { id: 'type', label: 'Type', type: 'text' },
+          { id: 'event_date', label: 'Date & Time', type: 'datetime-local' },
+          { id: 'location', label: 'Location', type: 'text' },
+          { id: 'price', label: 'Price', type: 'number', min: 0, step: 0.01 },
+          { id: 'availability', label: 'Available Tickets', type: 'number', min: 0 },
+        ].map(({ id, label, ...rest }) => (
+          <div key={id}>
+            <label htmlFor={id} className="block text-sm font-medium text-gray-700 mb-1">
+              {label}
+            </label>
+            <input
+              id={id}
+              name={id}
+              value={formData[id]}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200"
+              required
+              {...rest}
+            />
+          </div>
+        ))}
+
+        {/* Submit Button */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400"
+          className="w-full bg-blue-600 text-white font-medium py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200 disabled:bg-blue-400"
         >
           {loading ? <Spinner /> : 'Create Event'}
         </button>

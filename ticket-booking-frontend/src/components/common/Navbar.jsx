@@ -13,14 +13,14 @@ function Navbar() {
   }
 
   return (
-    <nav className="bg-blue-600 text-white shadow-md">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-blue-600 text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
             <Link to="/" className="flex-shrink-0 flex items-center">
               <img
-                className="h-8 w-auto"
-                src="/logo.png"
+                className="h-20 w-auto"
+                src="https://i.ibb.co/LdxNfVkB/Green-and-Grey-Modern-Icons-Tickets-Business-Logo-1.png"
                 alt="Event Booking"
               />
               <span className="ml-2 text-xl font-bold">Event Booking</span>

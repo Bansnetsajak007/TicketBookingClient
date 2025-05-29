@@ -1,3 +1,4 @@
+// src/pages/TicketPurchaseForm.jsx
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -24,23 +25,11 @@ function TicketPurchaseForm() {
     fetchEvent()
   }, [eventId])
 
-  const handlePurchase = async (e) => {
+  const handleProceed = (e) => {
     e.preventDefault()
-    setError('')
-    setLoading(true)
-    try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/events/purchase/${eventId}`,
-        { quantity }
-      )
-      alert(
-        `Successfully purchased ${response.data.ticketCount} tickets for $${response.data.totalCost}`
-      )
-      navigate('/dashboard')
-    } catch (err) {
-      setError(err.response?.data?.message || 'Purchase failed')
-    }
-    setLoading(false)
+    navigate(`/events/payment/${eventId}`, {
+      state: { event, quantity }
+    })
   }
 
   if (!event) return <Spinner />
@@ -52,11 +41,9 @@ function TicketPurchaseForm() {
       <div className="space-y-4">
         <p className="text-gray-600">Price: ${event.price}</p>
         <p className="text-gray-600">Tickets Available: {event.availability}</p>
-        <form onSubmit={handlePurchase} className="space-y-4">
+        <form onSubmit={handleProceed} className="space-y-4">
           <div>
-            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
-              Quantity
-            </label>
+            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">Quantity</label>
             <input
               type="number"
               id="quantity"
@@ -70,10 +57,9 @@ function TicketPurchaseForm() {
           </div>
           <button
             type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-400"
+            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700"
           >
-            {loading ? <Spinner /> : 'Purchase Tickets'}
+            Proceed to Payment
           </button>
         </form>
       </div>
